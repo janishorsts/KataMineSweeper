@@ -4,7 +4,11 @@ class MineSweeper
 
   dimension: (@height, @width) ->
 
-  display: -> ''
+  display: ->
+    if @height is 0 or @width is 0
+      return ''
+
+    '0'
 
 
 describe 'MineSweeper', ->
@@ -21,3 +25,7 @@ describe 'MineSweeper', ->
             mineSweeper = new MineSweeper
             mineSweeper.dimension 1, 1
             expect(mineSweeper.display()).to.equal '0'
+        it '10x1 should display one square', ->
+            mineSweeper = new MineSweeper
+            mineSweeper.dimension 10, 1
+            expect(mineSweeper.display()).to.equal '0000000000'
