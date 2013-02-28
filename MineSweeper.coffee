@@ -12,7 +12,7 @@ describe 'Game', ->
     ]
 
     _.each examples, (example) ->
-      it 'should display "#{example.output}" when input is "#{example.input}"', ->
+      it "should display '#{example.output}' when input is '#{example.input}'", ->
         game = new Game input: example.input
         expect(game.display()).to.equal example.output
 
