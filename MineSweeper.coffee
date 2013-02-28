@@ -1,13 +1,20 @@
 expect = require('chai').expect
+_ = require 'underscore'
 
+# TESTS
 describe 'Game', ->
   describe '#display()', ->
-    it 'should display "0" when input is "."', ->
-      game = new Game input: '.'
-      expect(game.display()).to.equal '0'
-    it 'should display "*" when input is "*"', ->
-      game = new Game input: '*'
-      expect(game.display()).to.equal '*'
+
+    examples = [
+      {input: '.',  output: '0'},
+      {input: '*',  output: '*'},
+      {input: '*.', output: '*1'}
+    ]
+
+    _.each examples, (example) ->
+      it 'should display "' + example.output + '" when input is "' + example.input + '"', ->
+        game = new Game input: example.input
+        expect(game.display()).to.equal example.output
 
 describe 'MineSweeper', ->
   mineSweeper = {}
@@ -21,11 +28,15 @@ describe 'MineSweeper', ->
       expect(mineSweeper.run()).to.equal ''
 
 
+# CODE
+
 class MineSweeper
   input: ->
   run: ->
     ''
 
 class Game
-  input: (@input) ->
-  display: -> '0'
+  constructor: (@options) ->
+  display: ->
+    return '0' if @options.input is '.'
+    '*'
