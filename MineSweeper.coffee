@@ -1,15 +1,22 @@
 expect = require('chai').expect
 _ = require 'underscore'
 
+
 # TESTS
+
 describe 'Game', ->
   describe '#display()', ->
 
     examples = [
-      {input: '.',  output: '0'},
-      {input: '*',  output: '*'},
-      {input: '*.', output: '*1'}
-      {input: '.*', output: '1*'}
+      {input: '.',       output: '0'},
+      {input: '*',       output: '*'},
+      {input: '*.',      output: '*1'}
+      {input: '.*',      output: '1*'},
+      {input: '*.*',     output: '*2*'},
+      {input: '.*.',     output: '1*1'},
+      {input: '..*.*..', output: '01*2*10'},
+
+      {input: "*\n.",    output: "*\n1"}
     ]
 
     _.each examples, (example) ->
@@ -39,6 +46,11 @@ class MineSweeper
 class Game
   constructor: (@options) ->
   display: ->
-    return '0' if @options.input is '.'
-    return '*1' if @options.input is '*.'
-    '*'
+    squares = @options.input.replace(/\./g, '0').split('')
+
+    _.each squares, (square, idx) ->
+      return if square == '*'
+      squares[idx]++ if squares[idx - 1] is '*'
+      squares[idx]++ if squares[idx + 1] is '*'
+
+    squares.join('')
