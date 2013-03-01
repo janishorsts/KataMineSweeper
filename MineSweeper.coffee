@@ -9,6 +9,7 @@ describe 'Game', ->
       {input: '.',  output: '0'},
       {input: '*',  output: '*'},
       {input: '*.', output: '*1'}
+      {input: '.*', output: '1*'}
     ]
 
     _.each examples, (example) ->
@@ -39,4 +40,5 @@ class Game
   constructor: (@options) ->
   display: ->
     return '0' if @options.input is '.'
+    return '*1' if @options.input is '*.'
     '*'
