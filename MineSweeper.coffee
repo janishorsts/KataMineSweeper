@@ -50,20 +50,19 @@ class Game
   display: ->
     lines = @options.input.split('\n')
 
-    # Generate Array for Grid
     _.each lines, (line, idy) ->
       lines[idy] = line.replace(/\./g, '0').split('')
 
-    # Iterate grid and check relative positions for mines
-    _.each lines, (line, idy) ->
+    _.each lines, (line, lineIndex) ->
       _.each line, (square, idx) ->
-        return if lines[idy][idx] == '*'
-        lines[idy][idx]++ if lines[idy][idx - 1] is '*'
-        lines[idy][idx]++ if lines[idy][idx + 1] is '*'
-        if lines[idy + 1]?
-          lines[idy][idx]++ if lines[idy + 1][idx] is '*'
-        if lines[idy - 1]?
-          lines[idy][idx]++ if lines[idy - 1][idx] is '*'
+        return if lines[lineIndex][idx] == '*'
 
-    # Flatten Array
+        lines[lineIndex][idx]++ if lines[lineIndex][idx - 1] is '*'
+        lines[lineIndex][idx]++ if lines[lineIndex][idx + 1] is '*'
+
+        if lines[lineIndex + 1]?
+          lines[lineIndex][idx]++ if lines[lineIndex + 1][idx] is '*'
+        if lines[lineIndex - 1]?
+          lines[lineIndex][idx]++ if lines[lineIndex - 1][idx] is '*'
+
     return lines.join('\n').replace(/\,/g, '')
