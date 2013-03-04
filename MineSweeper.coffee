@@ -38,8 +38,8 @@ describe 'MineSweeper', ->
       expect(mineSweeper.run()).to.equal ''
 
 
-# CODEz
-# yeah, i'm here 
+# CODE
+
 class MineSweeper
   input: ->
   run: ->
