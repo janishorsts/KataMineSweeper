@@ -60,9 +60,7 @@ class Game
         lines[lineIndex][idx]++ if lines[lineIndex][idx - 1] is '*'
         lines[lineIndex][idx]++ if lines[lineIndex][idx + 1] is '*'
 
-        if lines[lineIndex + 1]?
-          lines[lineIndex][idx]++ if lines[lineIndex + 1][idx] is '*'
-        if lines[lineIndex - 1]?
-          lines[lineIndex][idx]++ if lines[lineIndex - 1][idx] is '*'
+        lines[lineIndex][idx]++ if lines[lineIndex + 1]?[idx] is '*'
+        lines[lineIndex][idx]++ if lines[lineIndex - 1]?[idx] is '*'
 
     return lines.join('\n').replace(/\,/g, '')
