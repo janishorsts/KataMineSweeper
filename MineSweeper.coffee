@@ -21,6 +21,8 @@ describe 'Game', ->
       {input: ".*\n.*",  output: "2*\n2*"}
       {input: "*.\n..",  output: "*1\n11"}
       {input: "*.\n..\n.*",  output: "*1\n22\n1*"}
+      {input: "*...\n....\n.*..\n....", output: "*100\n2210\n1*10\n1110"}
+      {input: "**...\n.....\n.*...", output: "**100\n33200\n1*100"}
     ]
 
     _.each examples, (example) ->
