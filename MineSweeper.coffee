@@ -18,7 +18,7 @@ describe 'Game', ->
 
       {input: "*\n.",    output: "*\n1"}
       {input: ".\n*",    output: "1\n*"}
-      {input: ".*\n*.",    output: "2*\n*2"}
+      {input: ".*\n.*",    output: "2*\n2*"}
     ]
 
     _.each examples, (example) ->
@@ -49,9 +49,12 @@ class Game
   constructor: (@options) ->
   display: ->
     lines = @options.input.split('\n')
+
+    # Generate Array for Grid
     _.each lines, (line, idy) ->
       lines[idy] = line.replace(/\./g, '0').split('')
 
+    # Iterate grid and check relative positions for mines
     _.each lines, (line, idy) ->
       _.each line, (square, idx) ->
         return if lines[idy][idx] == '*'
@@ -61,4 +64,6 @@ class Game
           lines[idy][idx]++ if lines[idy + 1][idx] is '*'
         if lines[idy - 1]?
           lines[idy][idx]++ if lines[idy - 1][idx] is '*'
+
+    # Flatten Array
     return lines.join('\n').replace(/\,/g, '')
