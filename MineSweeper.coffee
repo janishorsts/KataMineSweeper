@@ -17,6 +17,8 @@ describe 'Game', ->
       {input: '..*.*..', output: '01*2*10'},
 
       {input: "*\n.",    output: "*\n1"}
+      {input: ".\n*",    output: "1\n*"}
+      {input: ".*\n*.",    output: "2*\n*2"}
     ]
 
     _.each examples, (example) ->
@@ -46,11 +48,17 @@ class MineSweeper
 class Game
   constructor: (@options) ->
   display: ->
-    squares = @options.input.replace(/\./g, '0').split('')
+    lines = @options.input.split('\n')
+    _.each lines, (line, idy) ->
+      lines[idy] = line.replace(/\./g, '0').split('')
 
-    _.each squares, (square, idx) ->
-      return if square == '*'
-      squares[idx]++ if squares[idx - 1] is '*'
-      squares[idx]++ if squares[idx + 1] is '*'
-
-    squares.join('')
+    _.each lines, (line, idy) ->
+      _.each line, (square, idx) ->
+        return if lines[idy][idx] == '*'
+        lines[idy][idx]++ if lines[idy][idx - 1] is '*'
+        lines[idy][idx]++ if lines[idy][idx + 1] is '*'
+        if lines[idy + 1]?
+          lines[idy][idx]++ if lines[idy + 1][idx] is '*'
+        if lines[idy - 1]?
+          lines[idy][idx]++ if lines[idy - 1][idx] is '*'
+    return lines.join('\n').replace(/\,/g, '')
