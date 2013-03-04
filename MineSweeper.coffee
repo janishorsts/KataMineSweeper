@@ -8,17 +8,19 @@ describe 'Game', ->
   describe '#display()', ->
 
     examples = [
-      {input: '.',       output: '0'},
-      {input: '*',       output: '*'},
+      {input: '.',       output: '0'}
+      {input: '*',       output: '*'}
       {input: '*.',      output: '*1'}
-      {input: '.*',      output: '1*'},
-      {input: '*.*',     output: '*2*'},
-      {input: '.*.',     output: '1*1'},
-      {input: '..*.*..', output: '01*2*10'},
+      {input: '.*',      output: '1*'}
+      {input: '*.*',     output: '*2*'}
+      {input: '.*.',     output: '1*1'}
+      {input: '..*.*..', output: '01*2*10'}
 
       {input: "*\n.",    output: "*\n1"}
       {input: ".\n*",    output: "1\n*"}
-      {input: ".*\n.*",    output: "2*\n2*"}
+      {input: ".*\n.*",  output: "2*\n2*"}
+      {input: "*.\n..",  output: "*1\n11"}
+      {input: "*.\n..\n.*",  output: "*1\n22\n1*"}
     ]
 
     _.each examples, (example) ->
@@ -38,7 +40,7 @@ describe 'MineSweeper', ->
       expect(mineSweeper.run()).to.equal ''
 
 
-# CODE
+# CODE 
 
 class MineSweeper
   input: ->
@@ -50,17 +52,23 @@ class Game
   display: ->
     lines = @options.input.split('\n')
 
-    _.each lines, (line, idy) ->
-      lines[idy] = line.replace(/\./g, '0').split('')
+    _.each lines, (line, idx) ->
+      lines[idx] = line.replace(/\./g, '0').split('')
 
-    _.each lines, (line, lineIndex) ->
-      _.each line, (square, idx) ->
-        return if lines[lineIndex][idx] == '*'
+    _.each lines, (line, lineIdx) ->
+      _.each line, (square, squareIdx) ->
+        return if line[squareIdx] == '*'
 
-        lines[lineIndex][idx]++ if lines[lineIndex][idx - 1] is '*'
-        lines[lineIndex][idx]++ if lines[lineIndex][idx + 1] is '*'
+        line[squareIdx]++ if line[squareIdx - 1] is '*'
+        line[squareIdx]++ if line[squareIdx + 1] is '*'
 
-        lines[lineIndex][idx]++ if lines[lineIndex + 1]?[idx] is '*'
-        lines[lineIndex][idx]++ if lines[lineIndex - 1]?[idx] is '*'
+        line[squareIdx]++ if lines[lineIdx + 1]?[squareIdx] is '*'
+        line[squareIdx]++ if lines[lineIdx - 1]?[squareIdx] is '*'
 
+        line[squareIdx]++ if lines[lineIdx + 1]?[squareIdx + 1] is '*'
+        line[squareIdx]++ if lines[lineIdx - 1]?[squareIdx + 1] is '*'
+        
+        line[squareIdx]++ if lines[lineIdx + 1]?[squareIdx - 1] is '*'
+        line[squareIdx]++ if lines[lineIdx - 1]?[squareIdx - 1] is '*'
+        
     return lines.join('\n').replace(/\,/g, '')
