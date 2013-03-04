@@ -1,5 +1,5 @@
 expect = require('chai').expect
-_ = require 'underscore'
+_ = require('underscore')
 
 
 # TESTS
@@ -38,8 +38,8 @@ describe 'MineSweeper', ->
       expect(mineSweeper.run()).to.equal ''
 
 
-# CODE
-
+# CODEz
+# yeah, i'm here 
 class MineSweeper
   input: ->
   run: ->
