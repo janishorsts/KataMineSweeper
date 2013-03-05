@@ -20,20 +20,23 @@ describe 'Game', ->
       {input: ".\n*",    output: "1\n*"}
       
       {input: "*.\n..",  output: "*1\n11"}
-      {input: ".*\n..",  output: "1*\n11"}
+      {input: "**\n..",  output: "**\n22"}
       {input: "..\n*.",  output: "11\n*1"}
+      {input: "..\n**",  output: "22\n**"}
       {input: "..\n.*",  output: "11\n1*"}
       
-      {input: "**\n..",  output: "**\n22"}
-      {input: "..\n**",  output: "22\n**"}
+      {input: ".*\n.*",  output: "2*\n2*"}
       {input: "*.\n*.",  output: "*2\n*2"}
       {input: ".*\n.*",  output: "2*\n2*"}
       {input: "*.\n.*",  output: "*2\n2*"}
       {input: ".*\n*.",  output: "2*\n*2"}
+      {input: "*...\n....\n.*..\n....", output: "*100\n2210\n1*10\n1110"}
+
+      {input: "*.\n..\n.*",  output: "*1\n22\n1*"}
       
       {input: "*...\n....\n.*..\n....", output: "*100\n2210\n1*10\n1110"}
       {input: "**...\n.....\n.*...",    output: "**100\n33200\n1*100"}
-
+      {input: "**...\n.....\n.*...", output: "**100\n33200\n1*100"}
     ]
 
     _.each examples, (example) ->
@@ -62,26 +65,19 @@ class MineSweeper
 
 class Game
   constructor: (@options) ->
+      @grid = @parse @options.input
+  parse: (input) ->
+      result = []
+      _.each @options.input.split('\n'), (row) ->
+        result.push row.replace(/\./g, '0').split ''
+      result
   display: ->
-    lines = @options.input.split('\n')
-
-    _.each lines, (line, idx) ->
-      lines[idx] = line.replace(/\./g, '0').split('')
-
-    _.each lines, (line, lineIdx) ->
-      _.each line, (square, squareIdx) ->
-        return if line[squareIdx] == '*'
-
-        line[squareIdx]++ if line[squareIdx - 1] is '*'
-        line[squareIdx]++ if line[squareIdx + 1] is '*'
-
-        line[squareIdx]++ if lines[lineIdx + 1]?[squareIdx] is '*'
-        line[squareIdx]++ if lines[lineIdx - 1]?[squareIdx] is '*'
-
-        line[squareIdx]++ if lines[lineIdx + 1]?[squareIdx + 1] is '*'
-        line[squareIdx]++ if lines[lineIdx - 1]?[squareIdx + 1] is '*'
+    _.each @grid, (row, rowIdx) =>
+      _.each row, (column, columnIdx) =>
+        return if row[columnIdx] == '*'
         
-        line[squareIdx]++ if lines[lineIdx + 1]?[squareIdx - 1] is '*'
-        line[squareIdx]++ if lines[lineIdx - 1]?[squareIdx - 1] is '*'
+        for y in [rowIdx - 1, rowIdx, rowIdx + 1]
+          for x in [columnIdx - 1, columnIdx, columnIdx + 1]
+            row[columnIdx]++ if @grid[y]?[x] is '*'
         
-    return lines.join('\n').replace(/\,/g, '')
+    return @grid.join('\n').replace(/\,/g, '')
