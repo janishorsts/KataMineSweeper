@@ -18,11 +18,22 @@ describe 'Game', ->
 
       {input: "*\n.",    output: "*\n1"}
       {input: ".\n*",    output: "1\n*"}
-      {input: ".*\n.*",  output: "2*\n2*"}
+      
       {input: "*.\n..",  output: "*1\n11"}
-      {input: "*.\n..\n.*",  output: "*1\n22\n1*"}
+      {input: ".*\n..",  output: "1*\n11"}
+      {input: "..\n*.",  output: "11\n*1"}
+      {input: "..\n.*",  output: "11\n1*"}
+      
+      {input: "**\n..",  output: "**\n22"}
+      {input: "..\n**",  output: "22\n**"}
+      {input: "*.\n*.",  output: "*2\n*2"}
+      {input: ".*\n.*",  output: "2*\n2*"}
+      {input: "*.\n.*",  output: "*2\n2*"}
+      {input: ".*\n*.",  output: "2*\n*2"}
+      
       {input: "*...\n....\n.*..\n....", output: "*100\n2210\n1*10\n1110"}
-      {input: "**...\n.....\n.*...", output: "**100\n33200\n1*100"}
+      {input: "**...\n.....\n.*...",    output: "**100\n33200\n1*100"}
+
     ]
 
     _.each examples, (example) ->
