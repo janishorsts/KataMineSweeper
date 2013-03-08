@@ -51,9 +51,15 @@ describe 'MineSweeper', ->
     mineSweeper = new MineSweeper
 
   describe '#run()', ->
-    it 'should end when input reaches 0 0', ->
-      mineSweeper.input('0 0');
-      expect(mineSweeper.run()).to.equal ''
+    examples = [
+      {input: '0 0',       output: ''},
+      {input: '1 1\n*',    output: 'Field #1:\n*' }
+    ];
+
+    _.each examples, (example) ->
+      it "should display '#{example.output}' when input is '#{example.input}'", ->
+        mineSweeper.input(example.input);
+        expect(mineSweeper.run()).to.equal example.output
 
 
 # CODE 
