@@ -53,7 +53,7 @@ describe 'MineSweeper', ->
   describe '#run()', ->
     examples = [
       {input: '0 0',       output: ''},
-      {input: '1 1\n*',    output: 'Field #1:\n*' }
+      {input: '1 1\n*\n0 0',    output: 'Field #1:\n*' }
     ];
 
     _.each examples, (example) ->
