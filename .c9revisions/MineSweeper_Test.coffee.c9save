@@ -1,0 +1,3 @@
+{"ts":1362417616833,"silentsave":true,"restoring":false,"patch":[[]],"length":0}
+{"contributors":[],"silentsave":false,"ts":1362417619347,"patch":[[{"diffs":[[1,"boo"]],"start1":0,"start2":0,"length1":0,"length2":3}]],"length":3,"saved":false}
+{"ts":1362417663873,"patch":[[{"diffs":[[-1,"boo"],[1,"expect = require('chai').expect\n\nit 'should be ok', ->\n    assertTrue 1"]],"start1":0,"start2":0,"length1":3,"length2":71}]],"length":71,"saved":false}

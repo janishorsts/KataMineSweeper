@@ -36,7 +36,6 @@ describe 'Game', ->
       
       {input: "*...\n....\n.*..\n....", output: "*100\n2210\n1*10\n1110"}
       {input: "**...\n.....\n.*...",    output: "**100\n33200\n1*100"}
-      {input: "**...\n.....\n.*...", output: "**100\n33200\n1*100"}
     ]
 
     _.each examples, (example) ->
@@ -54,6 +53,7 @@ describe 'MineSweeper', ->
     examples = [
       {input: '0 0',          output: ''},
       {input: '1 1\n*\n0 0',  output: 'Field #1:\n*' }
+      {input: '4 4\n*...\n....\n.*..\n....\n3 5\n**...\n.....\n.*...\n0 0', output: 'Field #1:\n*100\n2210\n1*10\n1110\n\nField #2:\n**100\n33200\n1*100'}
     ];
 
     _.each examples, (example) ->
@@ -62,12 +62,32 @@ describe 'MineSweeper', ->
         expect(mineSweeper.run()).to.equal example.output
 
 
+
+
 # CODE 
 
 class MineSweeper
-  input: ->
+  input: (input) ->
+    @data = @parse input
+  parse: (input) ->
+    lines = input.split '\n'
+    
+    result = []
+    
+    while lines.length
+      [height, width] = lines.shift().split ' '
+      if height > 0
+        game = lines.slice(0, height).join '\n'
+        result.push game
+      lines = lines.slice height
+    result
   run: ->
-    ''
+    result = ''
+    _.each @data, (gameData, idx) ->
+      game = new Game input: gameData
+      result += 'Field #' + (idx + 1) + ":\n"
+      result += game.display()
+    result
 
 class Game
   constructor: (@options) ->
